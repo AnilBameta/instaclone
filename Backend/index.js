@@ -2,6 +2,8 @@ const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
 
+const userRoute = require("./routes/user");
+const postRoute = require("./routes/posts");
 const cors = require("cors");
 
 const dotenv = require('dotenv');
@@ -19,5 +21,6 @@ mongoose.connect(process.env.MONGO_URL)
 
 
 app.use("/api/users", userRoute);
+app.use("/api/users", postRoute);
 
 app.listen(process.env.PORT || 5000,() => console.log("Backend server running"))

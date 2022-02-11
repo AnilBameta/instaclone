@@ -7,6 +7,7 @@ export default function RightHome() {
     const Container = styled.div`
     margin-top:20px;
     width:300px;
+    justify-content:center;
     `
 
     const Profile = styled.div`
