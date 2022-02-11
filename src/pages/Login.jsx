@@ -1,6 +1,5 @@
 import styled from "styled-components";
-// import { mobile } from "../responsive";
-import { Link } from 'react-router-dom';
+
 
 const Container = styled.div`
   width: 100vw;
@@ -79,9 +78,9 @@ const Login = () => {
             type="password"
             
           />
-          <Link to={`/home`}><Button >
+          <Button >
             LOGIN
-          </Button></Link>
+          </Button>
           <Linked>DO NOT YOU REMEMBER THE PASSWORD?</Linked>
           <Linked>CREATE A NEW ACCOUNT</Linked>
         </Form>
