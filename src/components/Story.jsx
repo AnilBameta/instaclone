@@ -1,9 +1,6 @@
 import styled from 'styled-components';
 
-export default function Story(props) {
-
-    console.log(props.data.img)
-    const Container = styled.div`
+const Container = styled.div`
     display:inline !important;
     `
 
@@ -14,18 +11,28 @@ export default function Story(props) {
     border-radius:50%;
     border-color:red;
     display:flex;
+    flex-direction:column;
     justify-content:center;
     align-items:center;
-
+    
     `
     const Img = styled.img`
+    flex:1;
     height:50px;
     width:50px;
+    margin-top:50px;
     `
+    const ImgName = styled.p`
+    flex:1;
+    text-align:center;
+    font-size:10px;
+    `
+export default function Story(props) {
   return(
       <Container>
           <OneStory>
       <Img src= {props.data.img} />
+      <ImgName>{props.data.name}</ImgName>
       </OneStory>
       </Container>
   )

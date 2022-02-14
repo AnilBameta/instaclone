@@ -4,14 +4,16 @@ import styled from "styled-components";
 
 
 
+
 const Container = styled.div`
-margin-top:20px;
+margin-top:10px;
 display: flex;
-flex-wrap: wrap;
 justify-content: space-around;
-border:solid 1px;
+border:solid 1px grey;
 padding:10px;
-height:70px !important;
+height:90px !important;
+gap:10px;
+cursor:pointer;
 `
 
 export default function Stories() {

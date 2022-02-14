@@ -4,6 +4,8 @@ const mongoose = require('mongoose');
 
 const userRoute = require("./routes/user");
 const postRoute = require("./routes/posts");
+app.use(express.json({limit: '50mb'}));
+app.use(express.urlencoded({limit: '50mb', extended: true}));
 const cors = require("cors");
 
 const dotenv = require('dotenv');
