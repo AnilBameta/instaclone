@@ -1,6 +1,8 @@
+import React, {useState} from 'react';
 import styled from "styled-components";
-// import { mobile } from "../responsive";
-import { Link } from 'react-router-dom';
+import axios from 'axios';
+import { Link , useNavigate} from 'react-router-dom';
+import { LineAxisOutlined } from '@mui/icons-material';
 
 const Container = styled.div`
   width: 100vw;
@@ -61,22 +63,46 @@ margin: 02px 0px;
 `;
 
 const Register = () => {
+  const navigate = useNavigate();
+  const [username,setUsername] = useState("");
+  const [email,setEmail] = useState("");
+  const [password,setPassword] = useState(""); 
+  const [cPassword,setCPassword] = useState("");
+
+ const RegisterBtn= (e)=>{
+    e.preventDefault()
+  axios.post('http://localhost:5000/api/users/register',{
+    username,
+    email,
+    password
+  })
+  .then(res => {
+    console.log(res)
+    navigate('/login');  
+  }
+  )
+  .catch(err =>{
+    console.log(err)
+    alert("Please enter valid credentials")
+  } 
+  )
+}
+
+
   return (
     <Container>
       <Wrapper>
         <Title>CREATE AN ACCOUNT</Title>
         <Form>
-          <Input placeholder="name" />
-          <Input placeholder="last name" />
-          <Input placeholder="username" />
-          <Input placeholder="email" />
-          <Input placeholder="password" />
-          <Input placeholder="confirm password" />
+          <Input placeholder="username" onChange={(e)=> setUsername(e.target.value)}/>
+          <Input placeholder="email" onChange={(e)=> setEmail(e.target.value)}/>
+          <Input placeholder="password" type='password' onChange={(e)=> setPassword(e.target.value)}/>
+          <Input placeholder="confirm password" type='password' onChange={(e)=> setCPassword(e.target.value)}/>
           <Agreement>
             By creating an account, I consent to the processing of my personal
             data in accordance with the <b>PRIVACY POLICY</b>
           </Agreement>
-         <Link to={`/login`}><Button>CREATE</Button></Link>
+         <Button onClick={RegisterBtn}>CREATE</Button>
         </Form>
         <Reg>Already a User?</Reg>
         <Link to = {`/login`}> Login</Link>

@@ -1,5 +1,7 @@
+import React ,{useState} from 'react';
 import styled from "styled-components";
-
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const Container = styled.div`
   width: 100vw;
@@ -63,7 +65,32 @@ const Linked = styled.a`
 
 
 
+
+
 const Login = () => {
+  const [username,setUsername] = useState("");
+  const [password,setPassword] = useState(""); 
+  const navigate = useNavigate();
+  function LoginButton(e) {
+    e.preventDefault();
+    axios.post('http://localhost:5000/api/users/login',{
+      username,
+      password
+    })
+    .then(res => {
+      localStorage.setItem("token",res.data.accessToken)
+      localStorage.setItem("user",JSON.stringify(res.data.user))
+      navigate('/');  
+    }
+    
+    )
+    .catch(err =>{
+      console.log(err)
+      alert("Please enter valid credentials")
+    } 
+    )
+  }
+
   return (
     <Container>
       <Wrapper>
@@ -71,14 +98,14 @@ const Login = () => {
         <Form>
           <Input
             placeholder="username"
-           
+            onChange={(e)=>setUsername(e.target.value)}
           />
           <Input
             placeholder="password"
             type="password"
-            
+            onChange={(e)=>setPassword(e.target.value)}
           />
-          <Button >
+          <Button onClick={(e)=>LoginButton(e)}>
             LOGIN
           </Button>
           <Linked>DO NOT YOU REMEMBER THE PASSWORD?</Linked>

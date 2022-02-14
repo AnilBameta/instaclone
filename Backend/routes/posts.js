@@ -38,4 +38,15 @@ router.post('/createpost',requireLogin,(req,res) =>{
     })
 })
 
+//DeletePost
+
+router.delete("/:id", requireLogin, async (req, res) => {
+    try {
+      await Posts.findByIdAndDelete(req.params.id);
+      res.status(200).json("Product has been deleted...");
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  });
+
 module.exports = router;

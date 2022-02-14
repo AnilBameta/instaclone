@@ -6,7 +6,7 @@ import ExploreRoundedIcon from '@mui/icons-material/ExploreRounded';
 import FavoriteBorderRoundedIcon from '@mui/icons-material/FavoriteBorderRounded';
 import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
-import {Link} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 export default function Navbar() {
 
    const Container = styled.div`
@@ -33,11 +33,11 @@ export default function Navbar() {
    `
 
    const Search = styled.input`
-   height:25px;
-   width:200px;
+   height:35px;
+   width:250px;
    border-radius:5px;
-   border-width:0.5px;
-   border-color:red;
+   border:none;
+   background-color:rgb(245, 238, 238);;
  `
 
    const Right = styled.div`
@@ -65,6 +65,31 @@ export default function Navbar() {
     cursor:pointer;
     font-weight:700;
     `
+
+    function Logout() {
+        window.location.reload(false);
+        localStorage.clear();
+        
+    }
+    const renderList = ()=> {
+        if(localStorage.getItem('user'))
+        {
+          return  [
+            <Link to={'/post'}> <Button>AddPost</Button></Link>,
+            <Link to={'/'}> <Button onClick={Logout}>Logout</Button></Link>
+            ]
+        }
+        else 
+        {
+            return [
+                <Link to={'/register'}> <Button>SignUp</Button></Link>,
+            <Link to={'/login'}><Button>SignIn</Button> </Link>
+                
+            ]
+        }
+    }
+
+
     return (
         <Container>
          <Wrapper>
@@ -73,7 +98,7 @@ export default function Navbar() {
              </Left>
              <Middle>
             
-                 <Search placeholder=' Search'></Search>
+                 <Search placeholder="   Search"></Search>
              </Middle>
              <Right>
                  <IconPallete>
@@ -84,8 +109,7 @@ export default function Navbar() {
                      <Icon><AddCircleOutlineOutlinedIcon /></Icon>
                  </IconPallete>
                  <ButtonSec>
-                <Link to={'/register'}> <Button>SignUp</Button></Link>
-                <Link to={'/login'}><Button>SignIn</Button> </Link>
+                 {renderList()}
                  </ButtonSec>
                  
              </Right>
