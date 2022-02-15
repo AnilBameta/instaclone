@@ -2,6 +2,7 @@ const express = require("express");
 const requireLogin = require("../middleware/requireLogin");
 const router = express.Router();
 const Posts = require("../models/Posts");
+const axios = require('axios')
 
 //getAllPost
 router.get('/allpost',(req,res)=> {
@@ -23,11 +24,12 @@ router.get('/postByUser',requireLogin,(req,res)=> {
 })
 
 //CreatePost
-router.post('/createpost',requireLogin,(req,res) =>{
+router.post('/createpost',requireLogin,(req,res) =>{   
     const post = new Posts({
         title:req.body.title,
         body:req.body.body,
-        postedBy:req.user 
+        postedBy:req.user ,
+        photo:req.body.photo
     })
     post.save()
     .then(result => {
