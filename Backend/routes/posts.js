@@ -16,7 +16,7 @@ router.get('/allpost',(req,res)=> {
 
 //postByUser
 router.get('/postByUser',requireLogin,(req,res)=> {
-    Posts.find({postedBy:req.user._id})
+    Posts.find({postedBy:req.user._id}).sort({'_id': -1})
     .then(post => {
         res.json({post})
     })
@@ -24,8 +24,8 @@ router.get('/postByUser',requireLogin,(req,res)=> {
 })
 
 //CreatePost
-router.post('/createpost',requireLogin,(req,res) =>{   
-    const post = new Posts({
+router.post('/createpost',requireLogin,async(req,res) =>{   
+    const post = await new Posts({
         title:req.body.title,
         body:req.body.body,
         postedBy:req.user ,
@@ -36,7 +36,9 @@ router.post('/createpost',requireLogin,(req,res) =>{
         res.json({result})
     })
     .catch(err =>{
-        console.log(err)
+        res.status(500).json({
+            err
+        })
     })
 })
 

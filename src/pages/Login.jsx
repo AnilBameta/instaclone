@@ -78,8 +78,8 @@ const Login = () => {
       password
     })
     .then(res => {
-      localStorage.setItem("token",res.data.accessToken)
-      localStorage.setItem("user",JSON.stringify(res.data.user))
+      localStorage.setItem("token",res.data.accessToken) 
+      localStorage.setItem("user",res.data.user.username)
       navigate('/');  
     }
     

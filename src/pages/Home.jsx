@@ -24,10 +24,11 @@ justify-content:center;
 `
 const LeftPart = styled.div`
 `
-export default function Home() {
+export default function Home(props) {
+    console.log("Homeprops",props)
     return (
         <>
-        <Navbar />
+        <Navbar {...props} />
         <Container>
             <Div>
             <Wrapper>

@@ -48,7 +48,7 @@ router.post('/login',async (req,res) => {
             {
                 expiresIn:'1d'
             })
-            res.status(200).send({user,accessToken})
+            res.status(200).json({user,accessToken})
         }
         else
         {
