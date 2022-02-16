@@ -23,8 +23,8 @@ width:100%;
 text-align:center;
 `
 
-export default function AllPosts() {
-
+export default function AllPosts(props) {
+console.log("props are here yoho",props)
 const [postData,setPostData] = useState();
 useEffect(()=>{
     if(localStorage.getItem('user')) {
@@ -118,16 +118,6 @@ return(
       </Card>
     ) 
      }
-
-
-
-
-
-
-
-
-
-
     </Wrapper>
     </Container>
   

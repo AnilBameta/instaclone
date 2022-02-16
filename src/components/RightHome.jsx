@@ -60,13 +60,16 @@ const Container = styled.div`
     font-weight:500;
     `
 export default function RightHome() {
-    
     return(
        <Container>
          <Wrapper>
           <Profile>
            <Img src={profilepic} alt='Profile Pic'></Img>
-           <ProfileName>Anil Bameta</ProfileName>
+           { localStorage.getItem('user') ?
+           <ProfileName>{localStorage.getItem('user')}</ProfileName>
+           :<ProfileName>User</ProfileName>
+            }
+            
            <ProfileLink>Switch</ProfileLink>
            </Profile>
        <h3>Suggestions For You</h3>

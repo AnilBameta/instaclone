@@ -10,7 +10,7 @@ const Container = styled.div`
   justify-content: center;
 `;
 const Wrapper = styled.div`
-  width: 25%;
+  width: 40%;
   padding: 20px;
   background-color: white;
 `;
@@ -24,6 +24,7 @@ const Input = styled.textarea`
   min-width: 40%;
   margin: 10px 0;
   padding: 10px;
+  border-radius: 5px;
   &:focus {
     outline: none;
     border-color: #ced4da;
@@ -39,8 +40,11 @@ const Button = styled.button`
   color: white;
   cursor: pointer;
   margin-bottom: 10px;
+  border-radius: 5px;
 `;
-const Post = () => {
+const Post = (props) => {
+console.log("post props",props)
+
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
   const [photo, setPhoto] = useState("");
@@ -80,7 +84,13 @@ const Post = () => {
               },
               { headers }
             )
-            .then((res) => alert("You have succesfully created the post"))
+            .then((res) => {
+              console.log(res)
+              props.sendNewPost(res?.data?.result)
+              alert("You have succesfully created the post")
+              // window.location.reload(false);
+            })
+              
             .catch((err) => alert(err));
          }
          )
@@ -125,9 +135,10 @@ const Post = () => {
             onChange={(e) => setFile(e.target.files[0])}
           ></input>
           <Button onClick={(e) => postDetails(e)}>Submit</Button>
+          <h3>Uploaded {progress} %</h3>
         </Form>
       </Wrapper>
-      <h3>Uploaded {progress} %</h3>
+      
     </Container>
   );
 };
