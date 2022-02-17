@@ -9,7 +9,7 @@ const Container = styled.div`
 margin-top:10px;
 display: flex;
 justify-content: space-around;
-border:solid 1px grey;
+box-shadow: 0.5px -1px 10px #888888;
 padding:10px;
 height:90px !important;
 gap:10px;
@@ -17,6 +17,7 @@ cursor:pointer;
 `
 
 export default function Stories() {
+  
   return (
     <Container>  
       {popularProducts.map((sItems) => {

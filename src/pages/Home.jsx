@@ -25,7 +25,7 @@ justify-content:center;
 const LeftPart = styled.div`
 `
 export default function Home(props) {
-    console.log("Homeprops",props)
+    
     return (
         <>
         <Navbar {...props} />
@@ -36,7 +36,7 @@ export default function Home(props) {
         <Stories />
         </LeftPart>
         <LeftPart>
-            <AllPosts />
+            <AllPosts {...props} />
         </LeftPart>
         </Wrapper>
         </Div>

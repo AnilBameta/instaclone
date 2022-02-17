@@ -85,10 +85,11 @@ const style = {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: 700,
+    width: 400,
     height:400,
     bgcolor: 'background.paper',
     border: 'none',
+    borderRadius: 5,
     boxShadow: 24,
     p: 4,
   };
@@ -96,8 +97,6 @@ const style = {
 
 
 export default function Navbar(props) {
-    console.log("navbar props",props)
-
     const [open, setOpen] = React.useState(false);
         const handleOpen = () => setOpen(true);
         const handleClose = () => setOpen(false);
@@ -130,7 +129,7 @@ export default function Navbar(props) {
 
     return (
         <Container>
-            {localStorage.getItem('user') &&
+            {localStorage.getItem('user') ?
              <Modal
         open={open}
         onClose={handleClose}
@@ -144,6 +143,8 @@ export default function Navbar(props) {
         
         </Box>
       </Modal>
+      :
+      alert("Please logIn")
             }
 
          <Wrapper>
