@@ -6,11 +6,12 @@ import {storage} from '../firebase';
 
 const Container = styled.div`
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items:center;
 `;
 const Wrapper = styled.div`
-  width: 40%;
+  margin-top:25px;
+  width: 50%;
   padding: 20px;
   background-color: white;
 `;
@@ -34,25 +35,27 @@ const Input = styled.textarea`
 const Button = styled.button`
   margin-top: 10px;
   width: 40%;
-  border: none;
-  padding: 10px 15px;
-  background-color: grey;
-  color: white;
-  cursor: pointer;
-  margin-bottom: 10px;
-  border-radius: 5px;
+  height:35px;
+  opacity:0.8;
+  cursor:pointer;
+  font-weight:700;
+  border-radius:8%;
+  border:none;
+  &:hover{
+      background-color:rgb(172, 168, 168);
+      transform:scale(1.05);
+  }
 `;
 const Post = (props) => {
-console.log("post props",props)
-
+console.log("post",props)
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
   const [photo, setPhoto] = useState("");
   const [file,setFile] = useState("");
   const [progress,setProgress] = useState(0);
   
-  const postDetails = (e) => {
-    e.preventDefault();
+  const addFile = (e) => {
+    setFile(e.target.files[0])
      const uploadFiles = (file) => {
          if(!file) return;
          const storageRef = ref(storage, `/files/${file.name}`);
@@ -67,34 +70,14 @@ console.log("post props",props)
          }, (err)=> console.log(err),
          ()=>
          getDownloadURL(uploadTask.snapshot.ref)
-         .then(url => {
+         .then( url => {
              setPhoto(url)
+            
          console.log(url)
-         const headers = {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-            "My-Custom-Header": "foobar",
-          };
-          axios
-            .post(
-              "http://localhost:5000/api/users/createpost",
-              {
-                title,
-                body,
-                photo
-              },
-              { headers }
-            )
-            .then((res) => {
-              console.log(res)
-              props.sendNewPost(res?.data?.result)
-              alert("You have succesfully created the post")
-              // window.location.reload(false);
-            })
-              
-            .catch((err) => alert(err));
          }
          )
          )
+        
      };
 
      uploadFiles(file)
@@ -116,6 +99,32 @@ console.log("post props",props)
     
 }
 
+const postDetails = (e) => {
+  e.preventDefault();
+  const headers = {
+    Authorization: `Bearer ${localStorage.getItem("token")}`,
+    "My-Custom-Header": "foobar",
+  };
+  axios
+    .post(
+      "http://localhost:5000/api/users/createpost",
+      {
+        title,
+        body,
+        photo
+      },
+      { headers }
+    )
+    .then((res) => {
+      console.log("postData is",res)
+      props.sendNewPost(res?.data?.result)
+      alert("You have succesfully created the post")
+      // window.location.reload(false);
+    })
+      
+    .catch((err) => alert(err)); 
+}
+
 
   return (
     <Container>
@@ -132,10 +141,10 @@ console.log("post props",props)
           />
           <input
             type="file"
-            onChange={(e) => setFile(e.target.files[0])}
+            onChange={addFile}
           ></input>
-          <Button onClick={(e) => postDetails(e)}>Submit</Button>
           <h3>Uploaded {progress} %</h3>
+          <Button onClick={(e) => postDetails(e)}>Submit</Button>
         </Form>
       </Wrapper>
       
