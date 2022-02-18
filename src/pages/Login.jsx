@@ -1,7 +1,9 @@
-import React ,{useState} from 'react';
+import React ,{useEffect, useState} from 'react';
 import styled from "styled-components";
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { CollectionsOutlined } from '@mui/icons-material';
+import { connectStorageEmulator } from 'firebase/storage';
 
 const Container = styled.div`
   width: 100vw;
@@ -70,26 +72,47 @@ const Linked = styled.a`
 const Login = () => {
   const [username,setUsername] = useState("");
   const [password,setPassword] = useState(""); 
+  const [formErrors,setFormErrors] = useState({});
   const navigate = useNavigate();
-  function LoginButton(e) {
+
+   function LoginButton(e) {
     e.preventDefault();
-    axios.post('http://localhost:5000/api/users/login',{
-      username,
-      password
-    })
-    .then(res => {
-      localStorage.setItem("token",res.data.accessToken) 
-      localStorage.setItem("user",res.data.user.username)
-      navigate('/');  
+    const error = {};
+     if(!username)
+     {
+      error.username = 'username';
+     }
+     if(!password)
+     {
+       error.password = 'password';
+     }
+     setFormErrors(error);
+     if(Object.keys(formErrors).length === 0)
+      {
+        axios.post('http://localhost:5000/api/users/login',{
+          username,
+          password
+        })
+        .then(res => {
+          localStorage.setItem("token",res.data.accessToken) 
+          localStorage.setItem("user",res.data.user.username)
+          navigate('/');  
+        }
+        
+        )
+        .catch(err =>{
+          console.log(err)
+          alert("Please enter valid credentials")
+        } 
+        )
+        console.log("api")
+      }
+      else {
+        console.log(formErrors)
+      }
     }
-    
-    )
-    .catch(err =>{
-      console.log(err)
-      alert("Please enter valid credentials")
-    } 
-    )
-  }
+
+ 
 
   return (
     <Container>
@@ -100,11 +123,17 @@ const Login = () => {
             placeholder="username"
             onChange={(e)=>setUsername(e.target.value)}
           />
+          { (formErrors.username) &&
+          <p style ={{color:'red',fontSize:'10px'}}>{`Please enter ${formErrors.username}`}</p>
+          }
           <Input
             placeholder="password"
             type="password"
             onChange={(e)=>setPassword(e.target.value)}
           />
+          { (formErrors.password) &&
+          <p style ={{color:'red',fontSize:'10px'}}>{`Please enter ${formErrors.password}`}</p>
+           } 
           <Button onClick={(e)=>LoginButton(e)}>
             LOGIN
           </Button>
