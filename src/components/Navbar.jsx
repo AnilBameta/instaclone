@@ -10,6 +10,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import Post from './Post';
+import Profile from './Profile';
 
 
 
@@ -97,9 +98,12 @@ const style = {
 
 
 export default function Navbar(props) {
-    const [open, setOpen] = React.useState(false);
-        const handleOpen = () => setOpen(true);
-        const handleClose = () => setOpen(false);
+    const [open1, setOpen1] = React.useState(false);
+    const [open2, setOpen2] = React.useState(false);
+        const handleOpen1 = () => setOpen1(true);
+        const handleOpen2 = () => setOpen2(true);
+        const handleClose1 = () => setOpen1(false);
+        const handleClose2 = () => setOpen2(false);
 
 
   
@@ -131,8 +135,8 @@ export default function Navbar(props) {
         <Container>
             {localStorage.getItem('user') ?
              <Modal
-        open={open}
-        onClose={handleClose}
+        open={open2}
+        onClose={handleClose2}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
@@ -146,7 +150,19 @@ export default function Navbar(props) {
       :
       alert("Please logIn")
             }
-
+            <Modal
+        open={open1}
+        onClose={handleClose1}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+          
+        <Box sx={style}>
+        
+        <Profile/>
+        
+        </Box>
+      </Modal>
          <Wrapper>
              <Left>
                  <AppName>Instagram</AppName>
@@ -160,8 +176,8 @@ export default function Navbar(props) {
                      <Icon><HomeIcon style={{fontSize:'30px'}}/></Icon>
                      <Icon><MapsUgcRoundedIcon style={{fontSize:'30px'}}/></Icon>
                      <Icon><ExploreRoundedIcon style={{fontSize:'30px'}}/></Icon>
-                     <Icon><FavoriteBorderRoundedIcon style={{fontSize:'30px'}}/></Icon>
-                    <Icon><AddCircleOutlineOutlinedIcon onClick={handleOpen} style={{fontSize:'30px'}}/></Icon>
+                     <Icon><FavoriteBorderRoundedIcon onClick={handleOpen1} style={{fontSize:'30px'}}/></Icon>
+                    <Icon><AddCircleOutlineOutlinedIcon onClick={handleOpen2} style={{fontSize:'30px'}}/></Icon>
                  </IconPallete>
                  <ButtonSec>
                  {renderList()}

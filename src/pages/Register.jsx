@@ -38,7 +38,7 @@ const Form = styled.form`
 
 const Input = styled.input`
   flex: 1;
-  min-width: 40%;
+  min-width: 80%;
   margin: 20px 10px 0px 0px;
   padding: 10px;
 `;
@@ -68,9 +68,14 @@ const Register = () => {
   const [email,setEmail] = useState("");
   const [password,setPassword] = useState(""); 
   const [cPassword,setCPassword] = useState("");
+  const [formErrors,setFormErrors] = useState({});
 
- const RegisterBtn= (e)=>{
-    e.preventDefault()
+ const RegisterBtn=  (e)=>{
+    e.preventDefault();
+    const retError= checkError(username,email,password,cPassword);
+     setFormErrors(retError);
+     if(Object.keys(formErrors).length === 0)
+    {
   axios.post('http://localhost:5000/api/users/register',{
     username,
     email,
@@ -87,6 +92,40 @@ const Register = () => {
   } 
   )
 }
+else {
+  console.log(formErrors)
+}
+}
+
+const checkError = (username,password,email,cPassword)=>{
+  const regex= /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
+  const error = {};
+   if(!username)
+   {
+    error.username = 'username';
+   }
+   if(!password)
+   {
+     error.password = 'password';
+   }
+   if(!email)
+   {
+     error.email = 'email'
+   }
+   else if(!regex.test(email))
+   {
+     error.email = 'in right format'
+   }
+   if(!cPassword)
+   {
+     error.cPassword = 'confirm password'
+   }
+   else if(password.localeCompare(cPassword) !== 0)
+   {
+     error.Cpassword= "same password"
+   }
+    return error;
+}
 
 
   return (
@@ -95,9 +134,21 @@ const Register = () => {
         <Title>CREATE AN ACCOUNT</Title>
         <Form>
           <Input placeholder="username" onChange={(e)=> setUsername(e.target.value)}/>
+          { (formErrors.username) &&
+          <p style ={{color:'red',fontSize:'10px'}}>{`Please enter ${formErrors.username}`}</p>
+          }
           <Input placeholder="email" onChange={(e)=> setEmail(e.target.value)}/>
+          { (formErrors.email) &&
+          <p style ={{color:'red', fontSize:'10px'}}>{`Please enter ${formErrors.email}`}</p>
+          }
           <Input placeholder="password" type='password' onChange={(e)=> setPassword(e.target.value)}/>
+          { (formErrors.password) &&
+          <p style ={{color:'red', fontSize:'10px'}}>{`Please enter ${formErrors.password}`}</p>
+          }
           <Input placeholder="confirm password" type='password' onChange={(e)=> setCPassword(e.target.value)}/>
+          { (formErrors.cPassword) &&
+          <p style ={{color:'red',fontSize:'10px'}}>{`Please enter ${formErrors.cPassword}`}</p>
+          }
           <Agreement>
             By creating an account, I consent to the processing of my personal
             data in accordance with the <b>PRIVACY POLICY</b>

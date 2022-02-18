@@ -38,6 +38,7 @@ router.post('/login',async (req,res) => {
         }
         )
     }
+    else {
     bcrypt.compare(req.body.password,user.password)
     .then(doMatch => {
         if(doMatch) {
@@ -50,15 +51,21 @@ router.post('/login',async (req,res) => {
             })
             res.status(200).json({user,accessToken})
         }
-        else
+        else if(!doMatch)
         {
+            res.status(500).json({
+                message : 'Username and Password did not match'
+              }
+              )
+        }
+        else {
             res.status(500).json({
                 message : 'Password did not match'
               }
               )
         }
     })
-    
+}
 })
 
 
