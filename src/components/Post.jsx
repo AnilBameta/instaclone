@@ -76,6 +76,9 @@ console.log("post",props)
          console.log(url)
          }
          )
+         .catch(err => {
+           console.log(err)
+         })
          )
         
      };

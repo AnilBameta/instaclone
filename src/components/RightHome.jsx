@@ -23,7 +23,7 @@ const Img = styled.div`
   border-radius: 50%;
   flex: 1;
   display: flex;
-  align-items:center;
+  align-items: center;
 `;
 
 const ProfileName = styled.h5`
@@ -35,8 +35,8 @@ const ProfileLink = styled.a`
   flex: 1;
   display: flex;
   align-items: center;
-  font-weight:600;
-  font-size:15px;
+  font-weight: 600;
+  font-size: 15px;
   cursor: pointer;
   color: blue;
 `;
@@ -62,7 +62,7 @@ const SugLink = styled.a`
   font-size: 14px;
   font-weight: 500;
 `;
-export default function RightHome() {
+const RightHome = () => {
   return (
     <Container>
       <Wrapper>
@@ -82,9 +82,10 @@ export default function RightHome() {
             <>
               <Img>
                 {
-                  <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-                    
-                  </Avatar>
+                  <Avatar
+                    sx={{ bgcolor: red[500] }}
+                    aria-label="recipe"
+                  ></Avatar>
                 }
               </Img>
               <ProfileName>User</ProfileName>
@@ -105,4 +106,5 @@ export default function RightHome() {
       </Wrapper>
     </Container>
   );
-}
+};
+export default RightHome;

@@ -1,7 +1,7 @@
+import * as React from "react";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import styled from "styled-components";
-import * as React from "react";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import ModeCommentOutlinedIcon from "@mui/icons-material/ModeCommentOutlined";
 import Card from "@mui/material/Card";
@@ -13,15 +13,19 @@ import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import CardHeader from "@mui/material/CardHeader";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import { mobile } from "../responsive";
 
-const Container = styled.div``;
+const Container = styled.div`
+${mobile({ justifyContent:'center'})}
+`;
 const Wrapper = styled.div`
   margin-top: 20px;
   width: 100%;
   text-align: center;
 `;
 
-export default function AllPosts(props) {
+const AllPosts = (props) => {
   console.log("allposts", props?.data?.Value?.postData);
   const [postData, setPostData] = useState();
   useEffect(() => {
@@ -55,7 +59,7 @@ export default function AllPosts(props) {
     }
   }, [props]);
 
-  function deletePost(postId) {
+  const deletePost = (postId) => {
     const headers = {
       Authorization: `Bearer ${localStorage.getItem("token")}`,
       "My-Custom-Header": "foobar",
@@ -72,19 +76,33 @@ export default function AllPosts(props) {
         console.log("postdata", postData);
       })
       .catch((err) => console.log(err));
-  }
+  };
+
+  const like = (postId) => {
+    const headers = {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "My-Custom-Header": "foobar",
+    };
+
+    axios
+      .put(`http://localhost:5000/api/users/${postId}`, null , { headers })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => console.log(err));
+  };
 
   return (
     <Container>
       <Wrapper>
         {postData?.map((postdata) => (
           <Card sx={{ maxWidth: 530, marginTop: 5 }}>
-            {localStorage.getItem("user") ?
+            {localStorage.getItem("user") ? (
               <CardHeader
-              style={{height:'5px'}}
+                style={{ height: "5px" }}
                 action={
                   <IconButton
-                  style={{marginTop:'-12px'}}
+                    style={{ marginTop: "-12px" }}
                     aria-label="settings"
                     onClick={() => deletePost(postdata._id)}
                   >
@@ -92,21 +110,21 @@ export default function AllPosts(props) {
                   </IconButton>
                 }
               />
-            :
-            <CardHeader
-              sx={{ height: 5, marginRight: 60, marginBottom: 1 }}
-              action={
-                <Typography variant="h6" color="text.secondary">
-                  {postdata?.postedBy?.username}
-                </Typography>
-              }
-            />
-            }
+            ) : (
+              <CardHeader
+                sx={{ height: 5, marginRight: 60, marginBottom: 1 }}
+                action={
+                  <Typography variant="h6" color="text.secondary">
+                    {postdata?.postedBy?.username}
+                  </Typography>
+                }
+              />
+            )}
             <CardMedia
               component="img"
               height="300"
               image={postdata?.photo}
-              alt="Photo not uploaded"
+              alt="Photo not available"
             />
             <CardContent sx={{ height: 35 }}>
               <Typography
@@ -125,12 +143,28 @@ export default function AllPosts(props) {
                 {postdata?.body}
               </Typography>
             </CardContent>
-            <CardActions border="1px" style={{marginTop:'7px'}}>
-              <Button size="small" style={{marginLeft:'-5px'}}>
-                <FavoriteBorderIcon style={{color:'black'}}/>
+            <CardActions border="1px" style={{ marginTop: "7px" }}>
+              <Button size="small" style={{ marginLeft: "-5px" }}>
+                {localStorage.getItem("user") ? (
+                  postdata?.like ? (
+                    <FavoriteIcon
+                      style={{ color: "black" }}
+                      onClick={() => like(postdata._id)}
+                    />
+                  ) : (
+                    <FavoriteBorderIcon
+                      style={{ color: "black" }}
+                      onClick={() => like(postdata._id)}
+                    />
+                  )
+                ) : postdata?.like ? (
+                  <FavoriteIcon style={{ color: "black" }} />
+                ) : (
+                  <FavoriteBorderIcon style={{ color: "black" }} />
+                )}
               </Button>
-              <Button size="small" style={{marginLeft:'1px'}}>
-                <ModeCommentOutlinedIcon style={{color:'black'}}/>
+              <Button size="small" style={{ marginLeft: "1px" }}>
+                <ModeCommentOutlinedIcon style={{ color: "black" }} />
               </Button>
             </CardActions>
           </Card>
@@ -138,4 +172,6 @@ export default function AllPosts(props) {
       </Wrapper>
     </Container>
   );
-}
+};
+
+export default AllPosts;

@@ -16,7 +16,7 @@ gap:10px;
 cursor:pointer;
 `
 
-export default function Stories() {
+ const Stories = () => {
   
   return (
     <Container>  
@@ -26,3 +26,4 @@ export default function Stories() {
     </Container>
   );
 }
+export default Stories;
